@@ -14,7 +14,7 @@ public class WeaponA extends Weapon {
 	}
 
 	@Override
-	protected Material getMagazineType() {
+	public Material getMagazineType() {
 		return Material.STICK;
 	}
 

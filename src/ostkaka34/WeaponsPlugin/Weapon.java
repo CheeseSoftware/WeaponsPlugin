@@ -21,7 +21,7 @@ public abstract class Weapon {
 	
 	protected abstract String getName();
 	protected abstract int getMagazineAmmo();
-	protected abstract Material getMagazineType();
+	public abstract Material getMagazineType();
 	protected abstract float getSnowballSpeed();
 	protected abstract float getSpreading();
 	protected abstract int getCooldown();
@@ -53,7 +53,7 @@ public abstract class Weapon {
 		if (reloading)
 			text = this.getName() + " - Reloading...";
 		else if (outOfAmmo)
-			text = this.getName() + " - Out of ammo";
+			text = this.getName() + " - Out of ammo. Try /buyammo";
 		else
 			text = this.getName() + " - " + Integer.toString(ammo) + "/";
 		

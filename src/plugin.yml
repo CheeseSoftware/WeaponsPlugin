@@ -1,3 +1,8 @@
 name: WeaponsPlugin
 main: ostkaka34.WeaponsPlugin.WeaponsPlugin
 version: 0
+commands:
+   buyammo:
+      description: Let you buy ammo.
+      usage: /buyammo
+      permission: WeaponsPlugin

@@ -30,6 +30,34 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	public Random random = new Random();
 	public int tickId;
 	
+	public IOstEconomy economyPlugin = null;
+	
+	protected void LoadPlayer(Player player) {
+		if (players.containsKey(player))
+			players.remove(player);
+		
+		Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
+		weapons.put(Material.WOOD_SPADE,	new WeaponA());
+		weapons.put(Material.WOOD_HOE,		new WeaponB());
+		weapons.put(Material.WOOD_PICKAXE,	new WeaponC());
+		weapons.put(Material.SHEARS,		new WeaponShotgun());
+		weapons.put(Material.IRON_BARDING,	new WeaponMagnum());
+		
+		players.put(player, new WPlayer(player, weapons));
+		
+		economyPlugin = (IOstEconomy) getServer().getPluginManager().getPlugin("OstEconomyPlugin");
+		
+		if (economyPlugin != null) {
+			economyPlugin.RegisterShopItem(Material.WOOD_HOE, 200);
+			economyPlugin.RegisterShopItem(Material.WOOD_PICKAXE, 800);
+			economyPlugin.RegisterShopItem(Material.IRON_BARDING, 2000);
+			economyPlugin.RegisterShopItem(Material.SHEARS, 5000);
+			economyPlugin.RegisterShopItem(Material.STICK, 10);
+			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10);
+			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10);
+		}
+	}
+	
 	@Override
 	public void onEnable(){
 		//getCommand("testcommand").setExecutor(this);
@@ -43,6 +71,14 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		            pairs.getValue().Tick();
 		        }
 		    }}, 0, 1);
+		
+		Player[] players = getServer().getOnlinePlayers();
+		
+		for (int i = 0; i < players.length; i++) {
+			LoadPlayer(players[i]);
+		}
+		
+		getServer().getPluginManager().getPlugin("InvasionWeaponBasePlugin");
 	}
 	
 	@Override
@@ -56,17 +92,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
-		if (players.containsKey(player))
-			players.remove(player);
-		
-		Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
-		weapons.put(Material.WOOD_SPADE,	new WeaponA());
-		weapons.put(Material.WOOD_HOE,		new WeaponB());
-		weapons.put(Material.WOOD_PICKAXE,	new WeaponC());
-		weapons.put(Material.SHEARS,		new WeaponShotgun());
-		weapons.put(Material.IRON_BARDING,	new WeaponMagnum());
-		
-		players.put(player, new WPlayer(player, weapons));
+		LoadPlayer(player);
 	}
 	
 	@EventHandler
@@ -79,24 +105,18 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		/*if (sender instanceof Player) {
-			//Player player = (Player)sender;
+	if (players.containsKey(sender)) {
+			WPlayer player = players.get(sender);
 			
-			if(cmd.getName().equalsIgnoreCase("testcommand")){ // If the player typed /basic then do the following...
-				if (args.length > 0) {
-					sender.sendMessage("Too many arguments!");
-					return false;
+			if(cmd.getName().equalsIgnoreCase("buyammo")) {
+				if (economyPlugin != null) {
+					Weapon weapon = player.getCurrentWeapon();
+					if (weapon != null)
+						economyPlugin.BuyShopItem(player.getPlayer(), weapon.getMagazineType());
 				}
-				
-				sender.sendMessage("It works!");
-				
-				
-				//player.getWorld().createExplosion(player.getLocation(), 10.f, true);
-				//player.getWorld().generateTree(player.getLocation().add(0, -10, 0), TreeType.TREE);
-				
 				return true;
 			}
-		}*/
+		}
 		return false; 
 	}
 

@@ -17,7 +17,7 @@ public class WPlayer {
 	
 	Map<Material, Weapon> weapons;
 	
-	protected Weapon getCurrentWeapon() {
+	public Weapon getCurrentWeapon() {
 		if (weapons.containsKey(player.getItemInHand().getType()))
 			return weapons.get(player.getItemInHand().getType());
 		else return null;
