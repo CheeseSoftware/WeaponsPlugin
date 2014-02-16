@@ -8,6 +8,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Snowman;
@@ -15,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -82,13 +84,19 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		//economyPlugin = (IOstEconomy) getServer().getPluginManager().getPlugin("OstEconomyPlugin");
 		
 		if (economyPlugin != null) {
-			economyPlugin.RegisterShopItem(Material.WOOD_HOE, 200);
-			economyPlugin.RegisterShopItem(Material.WOOD_PICKAXE, 2000);
-			economyPlugin.RegisterShopItem(Material.IRON_BARDING, 5000);
-			economyPlugin.RegisterShopItem(Material.SHEARS, 8000);
-			economyPlugin.RegisterShopItem(Material.STICK, 10);
-			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10);
-			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10);
+			economyPlugin.RegisterXPShopItem(Material.WOOD_HOE, 2000, "hoegun", true);
+			economyPlugin.RegisterXPShopItem(Material.WOOD_PICKAXE, 20000, "pickaxegun", true);
+			economyPlugin.RegisterXPShopItem(Material.IRON_BARDING, 80000, "magnum", true);
+			economyPlugin.RegisterShopItem(Material.SHEARS, 160000, "shotgun", true);
+			
+			economyPlugin.RegisterXPShopItem(Material.WOOL, 100000, "wool", false);
+			
+			//in game(ammo)
+			
+			
+			economyPlugin.RegisterShopItem(Material.STICK, 10, "stickammo", false);
+			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10, "magnumammo", false);
+			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10, "shotgunammo", false);
 		}
 	}
 	
@@ -322,7 +330,12 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	void onEntityDeathEvent(EntityDeathEvent event) {
+		LivingEntity entity = event.getEntity();
+		Player killer = entity.getKiller();
 		
+		if (economyPlugin != null) {
+			economyPlugin.GiveMoney(killer, (long)entity.getMaxHealth());
+		}
 	}
 	 
 	
