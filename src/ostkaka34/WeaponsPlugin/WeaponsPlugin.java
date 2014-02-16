@@ -18,9 +18,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
+
+import ostkaka34.OstEconomyPlugin.IOstEconomy;
 
 public class WeaponsPlugin extends JavaPlugin implements Listener {
 	
@@ -44,18 +48,6 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		weapons.put(Material.IRON_BARDING,	new WeaponMagnum());
 		
 		players.put(player, new WPlayer(player, weapons));
-		
-		economyPlugin = (IOstEconomy) getServer().getPluginManager().getPlugin("OstEconomyPlugin");
-		
-		if (economyPlugin != null) {
-			economyPlugin.RegisterShopItem(Material.WOOD_HOE, 200);
-			economyPlugin.RegisterShopItem(Material.WOOD_PICKAXE, 800);
-			economyPlugin.RegisterShopItem(Material.IRON_BARDING, 2000);
-			economyPlugin.RegisterShopItem(Material.SHEARS, 5000);
-			economyPlugin.RegisterShopItem(Material.STICK, 10);
-			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10);
-			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10);
-		}
 	}
 	
 	@Override
@@ -78,7 +70,26 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 			LoadPlayer(players[i]);
 		}
 		
-		getServer().getPluginManager().getPlugin("InvasionWeaponBasePlugin");
+		Plugin[] plugins = getServer().getPluginManager().getPlugins();
+		
+		for (int i = 0; i < plugins.length; i++) {
+			if (plugins[i] instanceof IOstEconomy) {
+				economyPlugin = (IOstEconomy) plugins[i];
+				break;
+			}
+		}
+		
+		//economyPlugin = (IOstEconomy) getServer().getPluginManager().getPlugin("OstEconomyPlugin");
+		
+		if (economyPlugin != null) {
+			economyPlugin.RegisterShopItem(Material.WOOD_HOE, 200);
+			economyPlugin.RegisterShopItem(Material.WOOD_PICKAXE, 2000);
+			economyPlugin.RegisterShopItem(Material.IRON_BARDING, 5000);
+			economyPlugin.RegisterShopItem(Material.SHEARS, 8000);
+			economyPlugin.RegisterShopItem(Material.STICK, 10);
+			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10);
+			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10);
+		}
 	}
 	
 	@Override
@@ -89,10 +100,17 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	}
 	
 	@EventHandler
+	public void onWorldInitEvent(WorldInitEvent event) {
+	}
+	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
 		LoadPlayer(player);
+		
+		if (economyPlugin != null)
+			player.sendMessage("Money: " + economyPlugin.getMoney(player));
 	}
 	
 	@EventHandler
@@ -112,7 +130,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 				if (economyPlugin != null) {
 					Weapon weapon = player.getCurrentWeapon();
 					if (weapon != null)
-						economyPlugin.BuyShopItem(player.getPlayer(), weapon.getMagazineType());
+						economyPlugin.BuyShopItem(player.getPlayer(), weapon.getMagazineType(), 16);
 				}
 				return true;
 			}
@@ -300,6 +318,11 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 				e.setDamage(8);
 			}
 		}
+	}
+	
+	@EventHandler
+	void onEntityDeathEvent(EntityDeathEvent event) {
+		
 	}
 	 
 	
