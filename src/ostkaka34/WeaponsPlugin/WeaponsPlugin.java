@@ -47,7 +47,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		weapons.put(Material.WOOD_HOE,		new WeaponB());
 		weapons.put(Material.WOOD_PICKAXE,	new WeaponC());
 		weapons.put(Material.SHEARS,		new WeaponShotgun());
+		weapons.put(Material.GOLD_BARDING,	new WeaponWeakShotgun());
 		weapons.put(Material.IRON_BARDING,	new WeaponMagnum());
+		weapons.put(Material.DIAMOND_BARDING, new WeaponMinigun());
 		
 		players.put(player, new WPlayer(player, weapons));
 	}
