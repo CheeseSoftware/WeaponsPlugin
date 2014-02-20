@@ -33,6 +33,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	public Map<Snowball, WPlayer> snowballs = new HashMap<Snowball, WPlayer>();
 	public Map<Player, WPlayer> players = new HashMap<Player, WPlayer>();
 	
+	protected final WeaponsPlugin This = this;
+	
 	public Random random = new Random();
 	public int tickId;
 	
@@ -43,13 +45,15 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 			players.remove(player);
 		
 		Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
-		weapons.put(Material.WOOD_SPADE,	new WeaponA());
-		weapons.put(Material.WOOD_HOE,		new WeaponB());
-		weapons.put(Material.WOOD_PICKAXE,	new WeaponC());
-		weapons.put(Material.SHEARS,		new WeaponShotgun());
-		weapons.put(Material.GOLD_BARDING,	new WeaponWeakShotgun());
-		weapons.put(Material.IRON_BARDING,	new WeaponMagnum());
-		weapons.put(Material.DIAMOND_BARDING, new WeaponMinigun());
+		weapons.put(Material.WOOD_SPADE,	new WeaponA()); //UZI
+		weapons.put(Material.WOOD_HOE,		new WeaponB()); //MSG
+		weapons.put(Material.WOOD_PICKAXE,	new WeaponC()); //MP5
+		
+		weapons.put(Material.GOLD_BARDING,		new WeaponWeakShotgun());
+		weapons.put(Material.IRON_BARDING,		new WeaponShotgun());
+		weapons.put(Material.DIAMOND_BARDING,	new WeaponDoubleBarrelShotgun());
+		
+		weapons.put(Material.SHEARS, new WeaponMagnum());
 		
 		players.put(player, new WPlayer(player, weapons));
 	}
@@ -64,7 +68,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		        Iterator<Map.Entry<Player, WPlayer>> it = players.entrySet().iterator();
 		        while (it.hasNext()) {
 		            Map.Entry<Player, WPlayer> pairs = (Map.Entry<Player, WPlayer>)it.next();
-		            pairs.getValue().Tick();
+		            pairs.getValue().Tick(This);
 		        }
 		    }}, 0, 1);
 		
@@ -86,19 +90,22 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		//economyPlugin = (IOstEconomy) getServer().getPluginManager().getPlugin("OstEconomyPlugin");
 		
 		if (economyPlugin != null) {
-			economyPlugin.RegisterXPShopItem(Material.WOOD_HOE, 2000, "hoegun", true);
-			economyPlugin.RegisterXPShopItem(Material.WOOD_PICKAXE, 20000, "pickaxegun", true);
-			economyPlugin.RegisterXPShopItem(Material.IRON_BARDING, 80000, "magnum", true);
-			economyPlugin.RegisterShopItem(Material.SHEARS, 160000, "shotgun", true);
+			economyPlugin.RegisterXPShopItem(Material.WOOD_HOE, 200, "MP5", true);
+			economyPlugin.RegisterXPShopItem(Material.WOOD_PICKAXE, 16000, "P-90", true);
+			
+			economyPlugin.RegisterXPShopItem(Material.SHEARS, 10000, "Magnum", true);
+			
+			economyPlugin.RegisterXPShopItem(Material.GOLD_BARDING, 4000, "Weak_Shotgun", true);
+			economyPlugin.RegisterXPShopItem(Material.IRON_BARDING, 36000, "Shotgun", true);
+			economyPlugin.RegisterXPShopItem(Material.DIAMOND_BARDING, 68000, "Double_Barrel_Shotgun", true);
 			
 			economyPlugin.RegisterXPShopItem(Material.WOOL, 100000, "wool", false);
 			
 			//in game(ammo)
 			
-			
-			economyPlugin.RegisterShopItem(Material.STICK, 10, "stickammo", false);
-			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 10, "magnumammo", false);
-			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 10, "shotgunammo", false);
+			economyPlugin.RegisterShopItem(Material.STICK, 200, "stickammo", false);
+			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 20, "magnumammo", false);
+			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 60, "shotgunammo", false);
 		}
 	}
 	

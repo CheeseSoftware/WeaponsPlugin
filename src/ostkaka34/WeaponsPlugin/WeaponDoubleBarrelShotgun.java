@@ -1,9 +1,8 @@
 package ostkaka34.WeaponsPlugin;
 
-import org.bukkit.Material;
 import org.bukkit.Sound;
 
-public class WeaponsDoubleBarrelShotgun extends Weapon {
+public class WeaponDoubleBarrelShotgun extends WeaponShotgun {
 	@Override
 	protected String getName() {
 		return "Double Barrel Shotgun";
@@ -11,42 +10,17 @@ public class WeaponsDoubleBarrelShotgun extends Weapon {
 	
 	@Override
 	protected int getMagazineAmmo() {
-		return 6;
-	}
-
-	@Override
-	public Material getMagazineType() {
-		return Material.WOOD_BUTTON;
-	}
-
-	@Override
-	protected float getSnowballSpeed() {
-		return 2f;
+		return 12;
 	}
 
 	@Override
 	protected float getSpreading() {
-		return 0.325f;
-	}
-
-	@Override
-	protected int getCooldown() {
-		return 10;
-	}
-
-	@Override
-	protected int getReloadCooldown() {
-		return 80;
-	}
-	
-	@Override
-	protected int getDamage() {
-		return 21;
+		return 0.1872f;
 	}
 	
 	@Override
 	protected float getDistance() {
-		return 6;
+		return 8;
 	}
 	
 	protected int getBullets() {

@@ -5,12 +5,12 @@ import org.bukkit.Material;
 public class WeaponC extends Weapon {
 	@Override
 	protected String getName() {
-		return "Pickaxe Gun";
+		return "P-90";
 	}
 	
 	@Override
 	protected int getMagazineAmmo() {
-		return 50;
+		return 100;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class WeaponC extends Weapon {
 	
 	@Override
 	protected int getDamage() {
-		return 13;
+		return 8;
 	}
 	
 	@Override

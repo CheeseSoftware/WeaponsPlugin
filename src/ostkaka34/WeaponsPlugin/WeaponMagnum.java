@@ -44,7 +44,7 @@ public class WeaponMagnum extends Weapon{
 	@Override
 	protected int getDamage() {
 		// TODO Auto-generated method stub
-		return 34;
+		return 25;
 	}
 
 	@Override

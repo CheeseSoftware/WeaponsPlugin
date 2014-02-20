@@ -5,7 +5,7 @@ import org.bukkit.Material;
 public class WeaponB extends Weapon {
 	@Override
 	protected String getName() {
-		return "Hoe Gun";
+		return "MP5";
 	}
 	
 	@Override
@@ -35,16 +35,16 @@ public class WeaponB extends Weapon {
 
 	@Override
 	protected int getReloadCooldown() {
-		return 40;
+		return 30;
 	}
 	
 	@Override
 	protected int getDamage() {
-		return 8;
+		return 6;
 	}
 	
 	@Override
 	protected float getDistance() {
-		return 256;
+		return 192;
 	}
 }

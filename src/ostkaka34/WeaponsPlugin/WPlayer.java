@@ -40,10 +40,10 @@ public class WPlayer {
 		return false;
 	}*/
 	
-	public void Tick() {
+	public void Tick(WeaponsPlugin plugin) {
 		Weapon weapon = getCurrentWeapon();
 		if (weapon != null)
-			weapon.Tick(this);
+			weapon.Tick(plugin, this);
 	}
 	
 	public Player getPlayer() {

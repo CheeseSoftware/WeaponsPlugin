@@ -18,6 +18,7 @@ public abstract class Weapon {
 	protected int cooldown = 0;
 	protected boolean reloading = false;
 	protected boolean outOfAmmo = false;
+	protected int shootTicks = 0;
 	
 	protected abstract String getName();
 	protected abstract int getMagazineAmmo();
@@ -64,17 +65,7 @@ public abstract class Weapon {
 	public SnowballInfo Shoot(WeaponsPlugin plugin, WPlayer player) {
 		if (ammo > 0)
 		{
-			if (cooldown <= 0) {
-				ammo--;
-				cooldown = this.getCooldown();
-				
-				for (int i = 0; i < this.getBullets(); i++)
-					snowballs.put(
-							plugin.LaunchSnowball(player, this.getSnowballSpeed(), this.getSpreading()),
-							player.getPlayer().getEyeLocation());
-			
-				player.getPlayer().playSound(player.getPlayer().getEyeLocation(),this.getShootSound(), 1, 1);
-			}
+			shootTicks = 5;
 		}
 		else if (cooldown <= 0 && !reloading) {
 			if (player.RemoveFromInventory(this.getMagazineType())) {
@@ -82,26 +73,44 @@ public abstract class Weapon {
 				outOfAmmo = false;
 				cooldown = this.getReloadCooldown();
 				
-				player.getPlayer().playSound(player.getPlayer().getEyeLocation(),this.getReloadSound(), 1, 1);
+				player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(),this.getReloadSound(), 1, 1);
 			}
 			else
 			{
 				outOfAmmo = true;
+				UpdateGui(player.getPlayer());
 			}
 		}
-		
-		UpdateGui(player.getPlayer());
-		
 		return null;
 	}
 	
-	public void Tick(WPlayer player) {
+	public void Tick(WeaponsPlugin plugin, WPlayer player) {
 		cooldown--;
+		shootTicks--;
 		
 		if (cooldown <= 0 && reloading) {
 			reloading = false;
 			ammo = this.getMagazineAmmo();
 			UpdateGui(player.getPlayer());
+		}
+		
+		if (shootTicks > 0 && (getCooldown() < 5 || shootTicks >= 4)) {
+			if (ammo > 0)
+			{
+				if (cooldown <= 0) {
+					ammo--;
+					cooldown = this.getCooldown();
+					
+					for (int i = 0; i < this.getBullets(); i++)
+						snowballs.put(
+								plugin.LaunchSnowball(player, this.getSnowballSpeed(), this.getSpreading()),
+								player.getPlayer().getEyeLocation());
+				
+					player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(),this.getShootSound(), 1, 1);
+				
+					UpdateGui(player.getPlayer());
+				}
+			}
 		}
 	}
 	
