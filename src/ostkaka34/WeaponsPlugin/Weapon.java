@@ -56,12 +56,29 @@ public abstract class Weapon {
 		else if (outOfAmmo)
 			text = this.getName() + " - Out of ammo. Try /buyammo";
 		else
-			text = this.getName() + " - " + Integer.toString(ammo) + "/";
+			text = this.getName() + " - " + Integer.toString(ammo) + "/" +
+				getMagazineAmmo() * CountItems(getMagazineType(), player);
 		
 		i.setDisplayName(text);
 		item.setItemMeta(i);
 	}
 	
+	private int CountItems(Material material, Player player) {
+		int items = 0;
+		
+		Map<Integer, ? extends ItemStack> stack = player.getInventory().all(material);
+
+		for (ItemStack s : stack.values())
+		{
+			if (s.getType() == material)
+				items += s.getAmount();
+		}
+		
+		
+		return items;
+	}
+	
+
 	public SnowballInfo Shoot(WeaponsPlugin plugin, WPlayer player) {
 		if (ammo > 0)
 		{
@@ -78,8 +95,8 @@ public abstract class Weapon {
 			else
 			{
 				outOfAmmo = true;
-				UpdateGui(player.getPlayer());
 			}
+			UpdateGui(player.getPlayer());
 		}
 		return null;
 	}

@@ -103,7 +103,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 			
 			//in game(ammo)
 			
-			economyPlugin.RegisterShopItem(Material.STICK, 200, "stickammo", false);
+			economyPlugin.RegisterShopItem(Material.STICK, 50, "stickammo", false);
 			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 20, "magnumammo", false);
 			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 60, "shotgunammo", false);
 		}
@@ -157,6 +157,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onPlayerInteractBlock(PlayerInteractEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
 			return;
 			
@@ -296,6 +299,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		if (e.isCancelled())
+			return;
+		
 		if (e.getDamager() instanceof Player)
 		{
 			Player player = (Player)e.getDamager();
