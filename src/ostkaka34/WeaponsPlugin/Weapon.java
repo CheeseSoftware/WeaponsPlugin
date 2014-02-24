@@ -68,7 +68,6 @@ public abstract class Weapon
 		else if (outOfAmmo)
 			text = this.getName() + " - Out of ammo. Try /buyammo";
 		else
-<<<<<<< HEAD
 			text = this.getName() + " - " + Integer.toString(ammo) + "/" +
 				getMagazineAmmo() * CountItems(getMagazineType(), player);
 		
@@ -93,16 +92,6 @@ public abstract class Weapon
 	
 
 	public SnowballInfo Shoot(WeaponsPlugin plugin, WPlayer player) {
-=======
-			text = this.getName() + " - " + Integer.toString(ammo) + "/";
-
-		i.setDisplayName(text);
-		item.setItemMeta(i);
-	}
-
-	public SnowballInfo Shoot(WeaponsPlugin plugin, WPlayer player)
-	{
->>>>>>> 2d112d4f7776064b0ecd24673e56fe410cf1fb17
 		if (ammo > 0)
 		{
 			shootTicks = 5;
