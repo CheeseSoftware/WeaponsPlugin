@@ -58,7 +58,7 @@ public class WeaponMagnum extends Weapon{
 	}
 	
 	protected Sound getShootSound() {
-		return Sound.PISTON_RETRACT;
+		return Sound.valueOf("largeBlast_far1");
 	}
 	
 	protected Sound getReloadSound() {
