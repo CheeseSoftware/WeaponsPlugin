@@ -178,12 +178,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 
 	@EventHandler
 	public void onPlayerInteractBlock(PlayerInteractEvent event) {
-		if (event.isCancelled())
-			return;
-		
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
-
 			Player player = event.getPlayer();
 
 			if (!players.containsKey(player))

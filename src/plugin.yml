@@ -5,4 +5,4 @@ commands:
    buyammo:
       description: Let you buy ammo.
       usage: /buyammo
-      permission: WeaponsPlugin
+      permission: weaponsplugin.buyammo
