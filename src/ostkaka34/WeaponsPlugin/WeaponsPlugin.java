@@ -177,7 +177,6 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 				Material m = event.getClickedBlock().getType();
 				if(m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST)
 				{
-					event.setCancelled(true);
 					return;
 				}
 			}
