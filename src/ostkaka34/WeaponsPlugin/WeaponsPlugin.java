@@ -48,9 +48,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			players.remove(player);
 
 		Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
-		weapons.put(Material.WOOD_SPADE, new WeaponA()); // UZI
-		weapons.put(Material.WOOD_HOE, new WeaponB()); // MSG
-		weapons.put(Material.WOOD_PICKAXE, new WeaponC()); // MP5
+		weapons.put(Material.WOOD_SPADE, new WeaponA()); // MAC-10
+		weapons.put(Material.WOOD_HOE, new WeaponB()); // MP5
+		weapons.put(Material.WOOD_PICKAXE, new WeaponC()); // P-90
 
 		weapons.put(Material.GOLD_BARDING, new WeaponWeakShotgun());
 		weapons.put(Material.IRON_BARDING, new WeaponShotgun());

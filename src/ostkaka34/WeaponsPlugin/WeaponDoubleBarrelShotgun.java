@@ -32,6 +32,6 @@ public class WeaponDoubleBarrelShotgun extends WeaponShotgun {
 	}
 	
 	protected Sound getReloadSound() {
-		return Sound.ANVIL_USE;
+		return Sound.FIREWORK_LAUNCH;
 	}
 }

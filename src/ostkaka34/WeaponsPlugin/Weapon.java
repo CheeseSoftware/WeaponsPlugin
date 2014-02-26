@@ -48,12 +48,12 @@ public abstract class Weapon
 
 	protected Sound getShootSound()
 	{
-		return Sound.STEP_STONE;
+		return Sound.FIREWORK_BLAST2;
 	}
 
 	protected Sound getReloadSound()
 	{
-		return Sound.ANVIL_USE;
+		return Sound.FIREWORK_LARGE_BLAST;
 	}
 
 	protected void UpdateGui(Player player)

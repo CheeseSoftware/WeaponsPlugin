@@ -58,11 +58,11 @@ public class WeaponMagnum extends Weapon{
 	}
 	
 	protected Sound getShootSound() {
-		return Sound.valueOf("largeBlast_far1");
+		return Sound.FIREWORK_LARGE_BLAST2;
 	}
 	
 	protected Sound getReloadSound() {
-		return Sound.ANVIL_USE;
+		return Sound.FIREWORK_TWINKLE2;
 	}
 
 }
