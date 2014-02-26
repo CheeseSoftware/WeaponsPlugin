@@ -8,7 +8,9 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Snowman;
@@ -51,20 +53,16 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		weapons.put(Material.WOOD_SPADE, new WeaponA()); // MAC-10
 		weapons.put(Material.WOOD_HOE, new WeaponB()); // MP5
 		weapons.put(Material.WOOD_PICKAXE, new WeaponC()); // P-90
-
 		weapons.put(Material.GOLD_BARDING, new WeaponWeakShotgun());
 		weapons.put(Material.IRON_BARDING, new WeaponShotgun());
 		weapons.put(Material.DIAMOND_BARDING, new WeaponDoubleBarrelShotgun());
-
 		weapons.put(Material.SHEARS, new WeaponMagnum());
-
 		players.put(player, new WPlayer(player, weapons));
 	}
 
 	@Override
 	public void onEnable()
 	{
-		// getCommand("testcommand").setExecutor(this);
 		getServer().getPluginManager().registerEvents(this, this);
 
 		tickId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
@@ -98,27 +96,20 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			}
 		}
 
-		// economyPlugin = (IOstEconomy)
-		// getServer().getPluginManager().getPlugin("OstEconomyPlugin");
-
 		if (economyPlugin != null)
 		{
 			economyPlugin.RegisterXPShopItem(Material.WOOD_HOE, 200, "MP5", true);
 			economyPlugin.RegisterXPShopItem(Material.WOOD_PICKAXE, 16000, "P-90", true);
-
 			economyPlugin.RegisterXPShopItem(Material.SHEARS, 10000, "Magnum", true);
-
 			economyPlugin.RegisterXPShopItem(Material.GOLD_BARDING, 4000, "Weak_Shotgun", true);
 			economyPlugin.RegisterXPShopItem(Material.IRON_BARDING, 36000, "Shotgun", true);
 			economyPlugin.RegisterXPShopItem(Material.DIAMOND_BARDING, 68000, "Double_Barrel_Shotgun", true);
 
 			economyPlugin.RegisterXPShopItem(Material.WOOL, 100000, "wool", false);
-			
-			//in game(ammo)
-			
+
 			economyPlugin.RegisterShopItem(Material.STICK, 50, "stickammo", false);
-			economyPlugin.RegisterShopItem(Material.FIREWORK_CHARGE, 20, "magnumammo", false);
-			economyPlugin.RegisterShopItem(Material.WOOD_BUTTON, 60, "shotgunammo", false);
+			economyPlugin.RegisterShopItem(Material.COAL, 20, "magnumammo", false);
+			economyPlugin.RegisterShopItem(Material.GOLD_NUGGET, 60, "shotgunammo", false);
 		}
 	}
 
@@ -177,7 +168,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onPlayerInteractBlock(PlayerInteractEvent event) {
+	public void onPlayerInteractBlock(PlayerInteractEvent event)
+	{
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
 			Player player = event.getPlayer();
@@ -189,135 +181,20 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 
 			wplayer.Shoot(this);
 		}
-	    
-	    /*if (hand.getType() == Material.BLAZE_ROD) {// == Material.BONE) {
-	    		if (!wplayer.Cooldown(60))
-	    			return;
-	    	
-		    	int strength = player.getFoodLevel();
-		    	
-		    	if (strength == 0)
-		    		return;
-		    	else if (strength > 10)
-		    		strength = 10;
-		    	
-		    	player.setFoodLevel(player.getFoodLevel()-1);
-		    	
-		    	
-		    	
-		    	hand.setDurability((short)(hand.getDurability()-strength));
-		    	//hand.notify();
-		    	
-		    	//player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 1));
-		    	//player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 10, 4));
-		    	//player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10, 4));
-		    	player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20, 1));
-		    	
-		    	player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 600, 1));
-			    // Creates a bolt of lightning at a given location. In this case, that location is where the player is looking.
-			    // Can only create lightning up to 200 blocks away.
-			    @SuppressWarnings("deprecation")
-				Location loc = player.getTargetBlock(null, 200).getLocation();
-			    player.getWorld().strikeLightningEffect(loc);
-			    player.getWorld().strikeLightningEffect(player.getLocation());
-			    
-			    double strength2 = strength;
-			    
-			    List<Entity> nearby =  player.getWorld().getEntities();//.getNearbyEntities(strength2/2, strength2/2 ,strength2/2);
-			    for (Entity tmp: nearby)
-			    {
-			    	if (tmp.getLocation().distance(loc) > strength)
-			    		continue;
-			    	
-			       if (tmp instanceof Damageable)
-			       {
-			    	  double distance = tmp.getLocation().distance(player.getLocation());
-			    	   
-			    	  int fireTicks = (int)(1200/distance);
-			    	  
-			    	  if (fireTicks == 0)
-			    		  fireTicks = 1;
-			    	  else if (fireTicks > 1200)
-			    		  fireTicks = 1200;
-			    	  
-			    	  
-			    	  if (tmp instanceof Player)
-			    	  {
-			    		  player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, fireTicks/30 + 1, 1));
-			    		  tmp.setFireTicks(fireTicks/30 + 1);
-			    		  //player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20, 1));
-			    	  }
-			    	  else
-			    	  {
-			    		  tmp.setFireTicks(fireTicks);
-			    		  ((Damageable) tmp).damage(strength2*24/distance);
-			    	  }
-			       }
-			    }
-			    player.getWorld().createExplosion(loc, (float)strength, true);
-			    if (strength == 5)
-			    	player.getWorld().createExplosion(loc, 3.f, true);
-			    player.getWorld().setStorm(true);* /
-			    
-			    
-	
-		    }
-	    	/ *else if (hand.getType() == Material.FISHING_ROD) {
-	    		if (RemoveFromInventory(player, Material.ARROW) && wplayer.Cooldown(0))
-		    	{
-		    		player.launchProjectile(Arrow.class);
-		    	}
-	    	}
-		    else if (hand.getType() == Material.CARROT_STICK) {
-		    	//gun, rifle?
-		    	if (RemoveFromInventory(player, Material.ARROW) && wplayer.Cooldown(0))
-		    	{
-		    		Arrow arrow = player.launchProjectile(Arrow.class);
-		    		arrow.setVelocity(player.getEyeLocation().getDirection().multiply(2));
-		    		arrow.setFireTicks(300);
-		    	}
-		    }
-		    else if (hand.getType() == Material.SHEARS) {
-		    	//shotgun
-		    	if (wplayer.Cooldown(20))
-	    		{
-			    	if (RemoveFromInventory(player, Material.WOOD_BUTTON))
-			    	{
-			    		
-					    	for (int i = 0; i < 16; i++)
-					    		LaunchSnowball(player, 'D', 1, 0.25);
-			    		
-			    	}
-	    		}
-		    }
-		    else if (hand.getType() == Material.WOOD_SPADE) {
-		    	//semi-auto, weak gun
-		    	if (wplayer.Cooldown(2))
-		    	{
-		    		if (RemoveFromInventory(player, Material.STICK))
-		    			LaunchSnowball(player, 'A', 1, 0.0625);
-		    	}
-		    	
-		    }
-		    else if (hand.getType() == Material.WOOD_HOE) {
-		    	//auto, weak gun
-		    	if (RemoveFromInventory(player, Material.STICK) && wplayer.Cooldown(0))
-		    		LaunchSnowball(player, 'B', 1.5, 0.042);
-		    	
-		    }
-		    else if (hand.getType() == Material.WOOD_PICKAXE) {
-		    	//auto, strong gun
-		    	if (RemoveFromInventory(player, Material.STICK) && wplayer.Cooldown(0))
-		    		LaunchSnowball(player, 'D', 2, 0.03125);
-		    	
-		    }*/
 	}
-	
+
 	@EventHandler
-	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e)
+	{
 		if (e.isCancelled())
 			return;
 		
+		if(e.getEntity() instanceof ItemFrame || e.getEntity() instanceof Painting)
+		{
+			e.setCancelled(true);
+			return;
+		}
+
 		if (e.getDamager() instanceof Player)
 		{
 			Player player = (Player) e.getDamager();
@@ -374,14 +251,11 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	public Snowball LaunchSnowball(WPlayer source, double speed, double randomness)
 	{
 		Vector dir = source.getPlayer().getEyeLocation().getDirection();
-		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness * (2 * random.nextDouble() - 1.0));
+		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness
+				* (2 * random.nextDouble() - 1.0));
 		dir = dir.multiply(speed);
 		Snowball snowball = source.getPlayer().launchProjectile(Snowball.class);
-		snowball.setVelocity(dir);// , new Vector(
-		// speed*(dir.getX()+randomness*(2*random.nextDouble()-1.0)),
-		// speed*(dir.getY()+randomness*(2*random.nextDouble()-1.0)),
-		// speed*(dir.getZ()+randomness*(2*random.nextDouble()-1.0))));
-
+		snowball.setVelocity(dir);
 		snowballs.put(snowball, source);
 		return snowball;
 	}
