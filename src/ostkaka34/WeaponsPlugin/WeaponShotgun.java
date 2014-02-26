@@ -16,7 +16,7 @@ public class WeaponShotgun extends Weapon {
 
 	@Override
 	public Material getMagazineType() {
-		return Material.WOOD_BUTTON;
+		return Material.GOLD_NUGGET;
 	}
 
 	@Override

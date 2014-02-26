@@ -168,10 +168,19 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onPlayerInteractBlock(PlayerInteractEvent event)
+	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
+			if(event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			{
+				Material m = event.getClickedBlock().getType();
+				if(m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST)
+				{
+					event.setCancelled(true);
+					return;
+				}
+			}
 			Player player = event.getPlayer();
 
 			if (!players.containsKey(player))

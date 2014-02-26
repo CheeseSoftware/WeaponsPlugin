@@ -17,7 +17,7 @@ public class WeaponMagnum extends Weapon{
 
 	@Override
 	public Material getMagazineType() {
-		return Material.FIREWORK_CHARGE;
+		return Material.COAL;
 	}
 
 	@Override
