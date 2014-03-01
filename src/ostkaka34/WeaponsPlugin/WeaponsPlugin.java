@@ -98,18 +98,18 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 
 		if (economyPlugin != null)
 		{
-			economyPlugin.RegisterXPShopItem(Material.WOOD_HOE, 200, "MP5", true);
-			economyPlugin.RegisterXPShopItem(Material.WOOD_PICKAXE, 16000, "P-90", true);
-			economyPlugin.RegisterXPShopItem(Material.SHEARS, 10000, "Magnum", true);
-			economyPlugin.RegisterXPShopItem(Material.GOLD_BARDING, 4000, "Weak_Shotgun", true);
-			economyPlugin.RegisterXPShopItem(Material.IRON_BARDING, 36000, "Shotgun", true);
-			economyPlugin.RegisterXPShopItem(Material.DIAMOND_BARDING, 68000, "Double_Barrel_Shotgun", true);
+			economyPlugin.RegisterShopItem("MP5", Material.WOOD_HOE, 0, 200, true, 1);
+			economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 16000, true, 1);
+			economyPlugin.RegisterShopItem("Magnum", Material.SHEARS,0,  10000, true, 1);
+			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 4000, true, 1);
+			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 36000, true, 1);
+			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 68000, true, 1);
 
-			economyPlugin.RegisterXPShopItem(Material.WOOL, 100000, "wool", false);
+			economyPlugin.RegisterShopItem("wool", Material.WOOL, 0, 100000, false, 1);
 
-			economyPlugin.RegisterShopItem(Material.STICK, 50, "stickammo", false);
-			economyPlugin.RegisterShopItem(Material.COAL, 20, "magnumammo", false);
-			economyPlugin.RegisterShopItem(Material.GOLD_NUGGET, 60, "shotgunammo", false);
+			economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 16);
+			economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 20, 0, false, 8);
+			economyPlugin.RegisterShopItem("Shotgun ammo", Material.GOLD_NUGGET, 60, 0, false, 12);
 		}
 	}
 
@@ -146,7 +146,6 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			players.remove(player);
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if (players.containsKey(sender))
@@ -159,7 +158,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 				{
 					Weapon weapon = player.getCurrentWeapon();
 					if (weapon != null)
-						economyPlugin.BuyShopItem(player.getPlayer(), weapon.getMagazineType(), 16);
+					{
+						economyPlugin.BuyShopItem(player.getPlayer(), ((IOstEconomy)economyPlugin).MaterialToName(weapon.getMagazineType()), 16);
+					}
 				}
 				return true;
 			}

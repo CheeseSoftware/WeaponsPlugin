@@ -1,5 +1,6 @@
 name: WeaponsPlugin
 main: ostkaka34.WeaponsPlugin.WeaponsPlugin
+depend: [OstEconomyPlugin]
 version: 0
 commands:
    buyammo:
