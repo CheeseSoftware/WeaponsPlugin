@@ -7,9 +7,12 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -96,7 +99,8 @@ public abstract class Weapon
 		if (ammo > 0)
 		{
 			shootTicks = 5;
-		} else if (cooldown <= 0 && !reloading)
+		}
+		else if (cooldown <= 0 && !reloading)
 		{
 			if (player.RemoveFromInventory(this.getMagazineType()))
 			{
@@ -105,7 +109,8 @@ public abstract class Weapon
 				cooldown = this.getReloadCooldown();
 
 				player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getReloadSound(), 1, 1);
-			} else
+			}
+			else
 			{
 				outOfAmmo = true;
 			}
@@ -144,20 +149,35 @@ public abstract class Weapon
 		}
 	}
 
-	public void HandleProjectile(EntityDamageByEntityEvent event, Projectile projectile)
+	public void HandleProjectileHitEntity(EntityDamageByEntityEvent event, Projectile projectile)
 	{
 		if (projectiles.containsKey(projectile))
 		{
 			double distance = projectile.getLocation().distance(projectiles.get(projectile));
 			distance -= 2;
 
-			if (distance <= 0)
-				event.setDamage(this.getDamage());
-			else
+			if (projectile instanceof Snowball)
 			{
-				double damageFactor = (double) this.getDamage() / (double) this.getDistance();
-				int damage = this.getDamage() - (int) (damageFactor * distance);
-				event.setDamage(damage);
+				if (distance <= 0)
+					event.setDamage(this.getDamage());
+				else
+				{
+					double damageFactor = (double) this.getDamage() / (double) this.getDistance();
+					int damage = this.getDamage() - (int) (damageFactor * distance);
+					event.setDamage(damage);
+				}
+			}
+		}
+	}
+	
+	public void HandleProjectileHitGround(ProjectileHitEvent event, Projectile projectile)
+	{
+		if (projectiles.containsKey(projectile))
+		{
+			if(projectile instanceof Fireball)
+			{
+				Location hitLocation = event.getEntity().getLocation();
+				projectile.getWorld().createExplosion(hitLocation, 5);
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -65,7 +66,8 @@ public class WPlayer
 			if (item.getAmount() == 1)
 			{
 				inventory.setItem(index, null);
-			} else
+			}
+			else
 			{
 				item.setAmount(item.getAmount() - 1);
 				// inventory.setItem(index, item);
@@ -84,15 +86,23 @@ public class WPlayer
 			weapon.Shoot(plugin, this);
 	}
 
-	public void HandleProjectile(EntityDamageByEntityEvent event, Projectile projectile)
+	public void HandleProjectileHitEntity(EntityDamageByEntityEvent event, Projectile projectile)
 	{
-		Iterator<Map.Entry<Material, Weapon>> it = weapons.entrySet()
-				.iterator();
+		Iterator<Map.Entry<Material, Weapon>> it = weapons.entrySet().iterator();
 		while (it.hasNext())
 		{
-			Map.Entry<Material, Weapon> pairs = (Map.Entry<Material, Weapon>) it
-					.next();
-			pairs.getValue().HandleProjectile(event, projectile);
+			Map.Entry<Material, Weapon> pairs = (Map.Entry<Material, Weapon>) it.next();
+			pairs.getValue().HandleProjectileHitEntity(event, projectile);
+		}
+	}
+	
+	public void HandleProjectileHitGround(ProjectileHitEvent event, Projectile projectile)
+	{
+		Iterator<Map.Entry<Material, Weapon>> it = weapons.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry<Material, Weapon> pairs = (Map.Entry<Material, Weapon>) it.next();
+			pairs.getValue().HandleProjectileHitGround(event, projectile);
 		}
 	}
 

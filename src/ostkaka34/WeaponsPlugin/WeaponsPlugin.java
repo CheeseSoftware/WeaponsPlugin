@@ -8,6 +8,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
@@ -20,11 +21,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -57,6 +58,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		weapons.put(Material.IRON_BARDING, new WeaponShotgun());
 		weapons.put(Material.DIAMOND_BARDING, new WeaponDoubleBarrelShotgun());
 		weapons.put(Material.SHEARS, new WeaponMagnum());
+		weapons.put(Material.DIAMOND_SWORD, new WeaponGrenadeLauncher());
 		players.put(player, new WPlayer(player, weapons));
 	}
 
@@ -104,6 +106,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 4000, true, 1);
 			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 36000, true, 1);
 			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 68000, true, 1);
+			economyPlugin.RegisterShopItem("Grenade Launcher", Material.DIAMOND_SWORD, 0, 100000, true, 1);
 
 			economyPlugin.RegisterShopItem("wool", Material.WOOL, 0, 100000, false, 1);
 
@@ -176,72 +179,50 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 			{
 				Material m = event.getClickedBlock().getType();
-				if (m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST)
-				{
+				if (m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST || m == Material.WOOD_BUTTON || m == Material.STONE_BUTTON)
 					return;
-				}
 			}
+
 			Player player = event.getPlayer();
-
-			if (!players.containsKey(player))
-				return;
-
-			WPlayer wplayer = players.get(player);
-
-			wplayer.Shoot(this);
+			if (players.containsKey(player))
+			{
+				WPlayer wplayer = players.get(player);
+				wplayer.Shoot(this);
+			}
 		}
 	}
 
 	@EventHandler
-	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e)
+	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 	{
-		if (e.isCancelled())
-			return;
-
-		if (e.getEntity() instanceof ItemFrame || e.getEntity() instanceof Painting)
+		if (event.getDamager() instanceof Projectile)
 		{
-			e.setCancelled(true);
-			return;
-		}
-
-		if (e.getDamager() instanceof Player)
-		{
-			Player player = (Player) e.getDamager();
-
-			ItemStack hand = player.getItemInHand();
-
-			if (hand.getType() == Material.SIGN)
+			Entity damaged = event.getEntity();
+			if (damaged instanceof ItemFrame || damaged instanceof Painting || damaged instanceof Snowman)
 			{
-				e.setDamage(24);
-				if (hand.getAmount() == 1)
-					player.setItemInHand(null);
-				else
-					hand.setAmount(hand.getAmount() - 1);
-			}
-			else if (hand.getType() == Material.PAPER)
-			{
-				e.setDamage(6);
-			}
-		}
-		else if (e.getDamager() instanceof Projectile)
-		{
-			Projectile projectile = (Projectile) e.getDamager();
-
-			if (e.getEntity() instanceof Snowman)
-			{
-				e.setCancelled(true);
+				event.setCancelled(true);
 				return;
 			}
 
+			Projectile projectile = (Projectile) event.getDamager();
 			if (projectiles.containsKey(projectile))
 			{
-				projectiles.get(projectile).HandleProjectile(e, projectile);
+				projectiles.get(projectile).HandleProjectileHitEntity(event, projectile);
 				projectiles.remove(projectile);
 			}
 			else
-			{
-				e.setDamage(8);
-			}
+				event.setDamage(8);
+		}
+	}
+
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent event)
+	{
+		Projectile projectile = event.getEntity();
+		if (projectiles.containsKey(projectile))
+		{
+			projectiles.get(projectile).HandleProjectileHitGround(event, projectile);
+			projectiles.remove(projectile);
 		}
 	}
 
