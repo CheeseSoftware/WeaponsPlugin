@@ -5,7 +5,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-public class WeaponMagnum extends Weapon
+public class WeaponMagnum extends BulletWeapon
 {
 
 	@Override

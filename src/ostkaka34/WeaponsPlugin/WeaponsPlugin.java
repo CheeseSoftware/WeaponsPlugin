@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
@@ -20,12 +22,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -51,14 +58,14 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			players.remove(player);
 
 		Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
-		weapons.put(Material.WOOD_SPADE, new WeaponA()); // MAC-10
-		weapons.put(Material.WOOD_HOE, new WeaponB()); // MP5
-		weapons.put(Material.WOOD_PICKAXE, new WeaponC()); // P-90
+		weapons.put(Material.WOOD_SPADE, new WeaponMAC10()); // MAC-10
+		weapons.put(Material.WOOD_HOE, new WeaponMP5()); // MP5
+		weapons.put(Material.WOOD_PICKAXE, new WeaponP90()); // P-90
 		weapons.put(Material.GOLD_BARDING, new WeaponWeakShotgun());
 		weapons.put(Material.IRON_BARDING, new WeaponShotgun());
 		weapons.put(Material.DIAMOND_BARDING, new WeaponDoubleBarrelShotgun());
 		weapons.put(Material.SHEARS, new WeaponMagnum());
-		weapons.put(Material.DIAMOND_SWORD, new WeaponGrenadeLauncher());
+		weapons.put(Material.IRON_HOE, new WeaponGrenadeLauncher());
 		players.put(player, new WPlayer(player, weapons));
 	}
 
@@ -106,13 +113,14 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 4000, true, 1);
 			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 36000, true, 1);
 			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 68000, true, 1);
-			economyPlugin.RegisterShopItem("Grenade Launcher", Material.DIAMOND_SWORD, 0, 100000, true, 1);
-
-			economyPlugin.RegisterShopItem("wool", Material.WOOL, 0, 100000, false, 1);
+			economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 100000, true, 1);
+			economyPlugin.RegisterShopItem("Building Block", Material.WOOL, 0, 100000, false, 1);
 
 			economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 16);
 			economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 20, 0, false, 8);
-			economyPlugin.RegisterShopItem("Shotgun ammo", Material.GOLD_NUGGET, 60, 0, false, 12);
+			economyPlugin.RegisterShopItem("Shotgun ammo", Material.BLAZE_ROD, 60, 0, false, 12);
+			economyPlugin.RegisterShopItem("Grenade Launcher Grenade", Material.SLIME_BALL, 500, 0, false, 1);
+			economyPlugin.RegisterShopItem("Hand Grenade", Material.EGG, 400, 0, false, 1);
 		}
 	}
 
@@ -179,7 +187,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 			{
 				Material m = event.getClickedBlock().getType();
-				if (m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST || m == Material.WOOD_BUTTON || m == Material.STONE_BUTTON)
+				if (m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST || m == Material.WOOD_BUTTON
+						|| m == Material.STONE_BUTTON)
 					return;
 			}
 
@@ -188,6 +197,22 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			{
 				WPlayer wplayer = players.get(player);
 				wplayer.Shoot(this);
+			}
+
+			if (player.getItemInHand() != null)
+			{
+				ItemStack item = player.getItemInHand();
+				if (item.getType() == Material.EGG)
+				{
+					if (item.getAmount() <= 1)
+						player.getInventory().remove(item);
+					else
+						item.setAmount(item.getAmount() - 1);
+					event.setCancelled(true);
+					Item grenade = player.getWorld().dropItem(player.getEyeLocation(), new ItemStack(Material.EGG));
+					grenade.setVelocity(player.getLocation().getDirection().multiply(1.2));
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new RunnableExplodeProjectileLater(grenade, player, 3), 100);
+				}
 			}
 		}
 	}
@@ -226,6 +251,28 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		}
 	}
 
+	@EventHandler
+	public void onPlayerPickupItem(PlayerPickupItemEvent event)
+	{
+		if (event.getItem().getItemStack().getType() == Material.EGG)
+			event.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onPlayerThrowEgg(PlayerEggThrowEvent event)
+	{
+		event.getEgg().remove();
+	}
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent event)
+	{
+		if (event.getCause() == DamageCause.BLOCK_EXPLOSION)
+		{
+			event.setCancelled(true);
+		}
+	}
+
 	@EventHandler(priority = EventPriority.LOW)
 	void onEntityDeathEvent(EntityDeathEvent event)
 	{
@@ -241,7 +288,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	public Projectile LaunchProjectile(WPlayer source, Class<? extends Projectile> projectileType, double speed, double randomness)
 	{
 		Vector dir = source.getPlayer().getEyeLocation().getDirection();
-		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness * (2 * random.nextDouble() - 1.0));
+		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness
+				* (2 * random.nextDouble() - 1.0));
 		dir = dir.multiply(speed);
 		Projectile projectile = source.getPlayer().launchProjectile(projectileType);
 		projectile.setVelocity(dir);

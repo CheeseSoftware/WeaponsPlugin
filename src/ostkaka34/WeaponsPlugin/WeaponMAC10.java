@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-public class WeaponA extends Weapon
+public class WeaponMAC10 extends BulletWeapon
 {
 	@Override
 	protected String getName()

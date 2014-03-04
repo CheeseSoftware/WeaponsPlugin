@@ -7,10 +7,8 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +21,7 @@ public abstract class Weapon
 	protected boolean reloading = false;
 	protected boolean outOfAmmo = false;
 	protected int shootTicks = 0;
+	protected Map<Projectile, Location> projectiles = new HashMap<Projectile, Location>();
 
 	protected abstract String getName();
 
@@ -44,8 +43,10 @@ public abstract class Weapon
 
 	protected abstract float getDistance();
 
-	protected Map<Projectile, Location> projectiles = new HashMap<Projectile, Location>();
-
+	protected abstract void onProjectileHitEntity(EntityDamageByEntityEvent event, Projectile projectile);
+	
+	protected abstract void onProjectileHitGround(ProjectileHitEvent event, Projectile projectile);
+	
 	protected int getBullets()
 	{
 		return 1;
@@ -111,9 +112,7 @@ public abstract class Weapon
 				player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getReloadSound(), 1, 1);
 			}
 			else
-			{
 				outOfAmmo = true;
-			}
 			UpdateGui(player.getPlayer());
 		}
 	}
@@ -153,20 +152,8 @@ public abstract class Weapon
 	{
 		if (projectiles.containsKey(projectile))
 		{
-			double distance = projectile.getLocation().distance(projectiles.get(projectile));
-			distance -= 2;
-
-			if (projectile instanceof Snowball)
-			{
-				if (distance <= 0)
-					event.setDamage(this.getDamage());
-				else
-				{
-					double damageFactor = (double) this.getDamage() / (double) this.getDistance();
-					int damage = this.getDamage() - (int) (damageFactor * distance);
-					event.setDamage(damage);
-				}
-			}
+			this.onProjectileHitEntity(event, projectile);
+			projectiles.remove(projectile);
 		}
 	}
 	
@@ -174,11 +161,8 @@ public abstract class Weapon
 	{
 		if (projectiles.containsKey(projectile))
 		{
-			if(projectile instanceof Fireball)
-			{
-				Location hitLocation = event.getEntity().getLocation();
-				projectile.getWorld().createExplosion(hitLocation, 5);
-			}
+			this.onProjectileHitGround(event, projectile);
+			projectiles.remove(projectile);
 		}
 	}
 }
