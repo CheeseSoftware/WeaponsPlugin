@@ -45,7 +45,7 @@ public class WeaponP90 extends BulletWeapon
 	@Override
 	protected int getCooldown()
 	{
-		return 1;
+		return 2;
 	}
 
 	@Override

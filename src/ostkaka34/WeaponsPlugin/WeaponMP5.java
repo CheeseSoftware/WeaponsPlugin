@@ -38,7 +38,7 @@ public class WeaponMP5 extends BulletWeapon {
 
 	@Override
 	protected int getCooldown() {
-		return 2;
+		return 3;
 	}
 
 	@Override
