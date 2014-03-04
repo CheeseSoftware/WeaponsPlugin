@@ -1,51 +1,68 @@
 package ostkaka34.WeaponsPlugin;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 
-public class WeaponA extends Weapon {
+public class WeaponA extends Weapon
+{
 	@Override
-	protected String getName() {
+	protected String getName()
+	{
 		return "MAC-10";
 	}
-	
+
 	@Override
-	protected int getMagazineAmmo() {
+	protected int getMagazineAmmo()
+	{
 		return 50;
 	}
 
 	@Override
-	public Material getMagazineType() {
+	public Material getMagazineType()
+	{
 		return Material.STICK;
 	}
 
 	@Override
-	protected float getSnowballSpeed() {
+	protected Class<? extends Projectile> getProjectile()
+	{
+		return Snowball.class;
+	}
+
+	@Override
+	protected float getProjectileSpeed()
+	{
 		return 2f;
 	}
 
 	@Override
-	protected float getSpreading() {
+	protected float getSpreading()
+	{
 		return 0.09275f;
 	}
 
 	@Override
-	protected int getCooldown() {
+	protected int getCooldown()
+	{
 		return 2;
 	}
 
 	@Override
-	protected int getReloadCooldown() {
+	protected int getReloadCooldown()
+	{
 		return 30;
 	}
-	
+
 	@Override
-	protected int getDamage() {
+	protected int getDamage()
+	{
 		return 4;
 	}
-	
+
 	@Override
-	protected float getDistance() {
+	protected float getDistance()
+	{
 		return 128;
 	}
-
 }

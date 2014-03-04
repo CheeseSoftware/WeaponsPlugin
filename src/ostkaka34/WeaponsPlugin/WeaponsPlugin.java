@@ -12,7 +12,7 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowman;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,7 +34,7 @@ import ostkaka34.OstEconomyPlugin.IOstEconomy;
 public class WeaponsPlugin extends JavaPlugin implements Listener
 {
 
-	public Map<Snowball, WPlayer> snowballs = new HashMap<Snowball, WPlayer>();
+	public Map<Projectile, WPlayer> projectiles = new HashMap<Projectile, WPlayer>();
 	public Map<Player, WPlayer> players = new HashMap<Player, WPlayer>();
 
 	protected final WeaponsPlugin This = this;
@@ -100,7 +100,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		{
 			economyPlugin.RegisterShopItem("MP5", Material.WOOD_HOE, 0, 200, true, 1);
 			economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 16000, true, 1);
-			economyPlugin.RegisterShopItem("Magnum", Material.SHEARS,0,  10000, true, 1);
+			economyPlugin.RegisterShopItem("Magnum", Material.SHEARS, 0, 10000, true, 1);
 			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 4000, true, 1);
 			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 36000, true, 1);
 			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 68000, true, 1);
@@ -159,7 +159,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 					Weapon weapon = player.getCurrentWeapon();
 					if (weapon != null)
 					{
-						economyPlugin.BuyShopItem(player.getPlayer(), ((IOstEconomy)economyPlugin).MaterialToName(weapon.getMagazineType()), 16);
+						economyPlugin.BuyShopItem(player.getPlayer(), ((IOstEconomy) economyPlugin).MaterialToName(weapon.getMagazineType()), 16);
 					}
 				}
 				return true;
@@ -173,10 +173,10 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	{
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
-			if(event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 			{
 				Material m = event.getClickedBlock().getType();
-				if(m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST)
+				if (m == Material.LEVER || m == Material.IRON_DOOR || m == Material.WOODEN_DOOR || m == Material.TRAP_DOOR || m == Material.CHEST)
 				{
 					return;
 				}
@@ -197,8 +197,8 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	{
 		if (e.isCancelled())
 			return;
-		
-		if(e.getEntity() instanceof ItemFrame || e.getEntity() instanceof Painting)
+
+		if (e.getEntity() instanceof ItemFrame || e.getEntity() instanceof Painting)
 		{
 			e.setCancelled(true);
 			return;
@@ -223,9 +223,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 				e.setDamage(6);
 			}
 		}
-		else if (e.getDamager() instanceof Snowball)
+		else if (e.getDamager() instanceof Projectile)
 		{
-			Snowball snowball = (Snowball) e.getDamager();
+			Projectile projectile = (Projectile) e.getDamager();
 
 			if (e.getEntity() instanceof Snowman)
 			{
@@ -233,10 +233,10 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 				return;
 			}
 
-			if (snowballs.containsKey(snowball))
+			if (projectiles.containsKey(projectile))
 			{
-				snowballs.get(snowball).HandleSnowball(e, snowball);
-				snowballs.remove(snowball);
+				projectiles.get(projectile).HandleProjectile(e, projectile);
+				projectiles.remove(projectile);
 			}
 			else
 			{
@@ -257,16 +257,15 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		}
 	}
 
-	public Snowball LaunchSnowball(WPlayer source, double speed, double randomness)
+	public Projectile LaunchProjectile(WPlayer source, Class<? extends Projectile> projectileType, double speed, double randomness)
 	{
 		Vector dir = source.getPlayer().getEyeLocation().getDirection();
-		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness
-				* (2 * random.nextDouble() - 1.0));
+		dir = new Vector(dir.getX() + randomness * (2 * random.nextDouble() - 1.0), dir.getY() + randomness * (2 * random.nextDouble() - 1.0), dir.getZ() + randomness * (2 * random.nextDouble() - 1.0));
 		dir = dir.multiply(speed);
-		Snowball snowball = source.getPlayer().launchProjectile(Snowball.class);
-		snowball.setVelocity(dir);
-		snowballs.put(snowball, source);
-		return snowball;
+		Projectile projectile = source.getPlayer().launchProjectile(projectileType);
+		projectile.setVelocity(dir);
+		projectiles.put(projectile, source);
+		return projectile;
 	}
 
 }

@@ -1,6 +1,8 @@
 package ostkaka34.WeaponsPlugin;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 
 public class WeaponB extends Weapon {
 	@Override
@@ -17,9 +19,15 @@ public class WeaponB extends Weapon {
 	public Material getMagazineType() {
 		return Material.STICK;
 	}
+	
+	@Override
+	protected Class<? extends Projectile> getProjectile()
+	{
+		return Snowball.class;
+	}
 
 	@Override
-	protected float getSnowballSpeed() {
+	protected float getProjectileSpeed() {
 		return 2.5f;
 	}
 

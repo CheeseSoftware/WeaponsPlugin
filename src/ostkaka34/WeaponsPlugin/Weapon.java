@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -27,7 +27,9 @@ public abstract class Weapon
 
 	public abstract Material getMagazineType();
 
-	protected abstract float getSnowballSpeed();
+	protected abstract Class<? extends Projectile> getProjectile();
+
+	protected abstract float getProjectileSpeed();
 
 	protected abstract float getSpreading();
 
@@ -39,7 +41,7 @@ public abstract class Weapon
 
 	protected abstract float getDistance();
 
-	protected Map<Snowball, Location> snowballs = new HashMap<Snowball, Location>();
+	protected Map<Projectile, Location> projectiles = new HashMap<Projectile, Location>();
 
 	protected int getBullets()
 	{
@@ -68,16 +70,16 @@ public abstract class Weapon
 		else if (outOfAmmo)
 			text = this.getName() + " - Out of ammo. Try /buyammo";
 		else
-			text = this.getName() + " - " + Integer.toString(ammo) + "/" +
-				getMagazineAmmo() * CountItems(getMagazineType(), player);
-		
+			text = this.getName() + " - " + Integer.toString(ammo) + "/" + getMagazineAmmo() * CountItems(getMagazineType(), player);
+
 		i.setDisplayName(text);
 		item.setItemMeta(i);
 	}
-	
-	private int CountItems(Material material, Player player) {
+
+	private int CountItems(Material material, Player player)
+	{
 		int items = 0;
-		
+
 		Map<Integer, ? extends ItemStack> stack = player.getInventory().all(material);
 
 		for (ItemStack s : stack.values())
@@ -85,18 +87,16 @@ public abstract class Weapon
 			if (s.getType() == material)
 				items += s.getAmount();
 		}
-		
-		
+
 		return items;
 	}
-	
 
-	public SnowballInfo Shoot(WeaponsPlugin plugin, WPlayer player) {
+	public void Shoot(WeaponsPlugin plugin, WPlayer player)
+	{
 		if (ammo > 0)
 		{
 			shootTicks = 5;
-		}
-		else if (cooldown <= 0 && !reloading)
+		} else if (cooldown <= 0 && !reloading)
 		{
 			if (player.RemoveFromInventory(this.getMagazineType()))
 			{
@@ -105,14 +105,12 @@ public abstract class Weapon
 				cooldown = this.getReloadCooldown();
 
 				player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getReloadSound(), 1, 1);
-			}
-			else
+			} else
 			{
 				outOfAmmo = true;
 			}
 			UpdateGui(player.getPlayer());
 		}
-		return null;
 	}
 
 	public void Tick(WeaponsPlugin plugin, WPlayer player)
@@ -137,8 +135,8 @@ public abstract class Weapon
 					cooldown = this.getCooldown();
 
 					for (int i = 0; i < this.getBullets(); i++)
-						snowballs.put(plugin.LaunchSnowball(player, this.getSnowballSpeed(), this.getSpreading()), player.getPlayer().getEyeLocation());
-					
+						projectiles.put(plugin.LaunchProjectile(player, this.getProjectile(), this.getProjectileSpeed(), this.getSpreading()), player.getPlayer().getEyeLocation());
+
 					player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getShootSound(), 1, 1);
 					UpdateGui(player.getPlayer());
 				}
@@ -146,11 +144,11 @@ public abstract class Weapon
 		}
 	}
 
-	public void HandleSnowball(EntityDamageByEntityEvent event, Snowball snowball)
+	public void HandleProjectile(EntityDamageByEntityEvent event, Projectile projectile)
 	{
-		if (snowballs.containsKey(snowball))
+		if (projectiles.containsKey(projectile))
 		{
-			double distance = snowball.getLocation().distance(snowballs.get(snowball));
+			double distance = projectile.getLocation().distance(projectiles.get(projectile));
 			distance -= 2;
 
 			if (distance <= 0)
