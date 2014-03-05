@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
@@ -27,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -133,12 +135,12 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onWorldInitEvent(WorldInitEvent event)
+	private void onWorldInitEvent(WorldInitEvent event)
 	{
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onPlayerJoin(PlayerJoinEvent event)
+	private void onPlayerJoin(PlayerJoinEvent event)
 	{
 		Player player = event.getPlayer();
 
@@ -149,7 +151,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onPlayerQuit(PlayerQuitEvent event)
+	private void onPlayerQuit(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
 
@@ -180,7 +182,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event)
+	private void onPlayerInteract(PlayerInteractEvent event)
 	{
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
@@ -218,7 +220,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
+	private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 	{
 		if (event.getDamager() instanceof Projectile)
 		{
@@ -241,7 +243,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onProjectileHit(ProjectileHitEvent event)
+	private void onProjectileHit(ProjectileHitEvent event)
 	{
 		Projectile projectile = event.getEntity();
 		if (projectiles.containsKey(projectile))
@@ -252,20 +254,20 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler
-	public void onPlayerPickupItem(PlayerPickupItemEvent event)
+	private void onPlayerPickupItem(PlayerPickupItemEvent event)
 	{
 		if (event.getItem().getItemStack().getType() == Material.EGG)
 			event.setCancelled(true);
 	}
 
 	@EventHandler
-	public void onPlayerThrowEgg(PlayerEggThrowEvent event)
+	private void onPlayerThrowEgg(PlayerEggThrowEvent event)
 	{
 		event.getEgg().remove();
 	}
 
 	@EventHandler
-	public void onEntityDamage(EntityDamageEvent event)
+	private void onEntityDamage(EntityDamageEvent event)
 	{
 		if (event.getCause() == DamageCause.BLOCK_EXPLOSION)
 		{
@@ -274,7 +276,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	void onEntityDeathEvent(EntityDeathEvent event)
+	private void onEntityDeathEvent(EntityDeathEvent event)
 	{
 		LivingEntity entity = event.getEntity();
 		Player killer = entity.getKiller();
@@ -282,6 +284,19 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 		if (economyPlugin != null)
 		{
 			economyPlugin.GiveMoney(killer, (long) entity.getMaxHealth());
+		}
+	}
+
+	@EventHandler
+	private void onPlayerInteractEntity(PlayerInteractEntityEvent event)
+	{
+		if (event.getRightClicked().getType() == EntityType.VILLAGER)
+		{
+			event.setCancelled(true);
+			if (this.players.containsKey(event.getPlayer()))
+			{
+				this.players.get(event.getPlayer()).Shoot(this);
+			}
 		}
 	}
 
