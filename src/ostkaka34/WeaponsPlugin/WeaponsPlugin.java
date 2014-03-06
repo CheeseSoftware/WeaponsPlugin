@@ -118,9 +118,9 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 100000, true, 1);
 			economyPlugin.RegisterShopItem("Building Block", Material.WOOL, 0, 100000, false, 1);
 
-			economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 16);
-			economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 20, 0, false, 8);
-			economyPlugin.RegisterShopItem("Shotgun ammo", Material.BLAZE_ROD, 60, 0, false, 12);
+			economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 4);
+			economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 20, 0, false, 1);
+			economyPlugin.RegisterShopItem("Shotgun ammo", Material.BLAZE_ROD, 60, 0, false, 1);
 			economyPlugin.RegisterShopItem("Grenade Launcher Grenade", Material.SLIME_BALL, 500, 0, false, 1);
 			economyPlugin.RegisterShopItem("Hand Grenade", Material.EGG, 400, 0, false, 1);
 		}
@@ -199,6 +199,14 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 			{
 				WPlayer wplayer = players.get(player);
 				wplayer.Shoot(this);
+				if(wplayer.getCurrentWeapon() != null)
+				{
+					Weapon w = wplayer.getCurrentWeapon();
+					if(w.outOfAmmo)
+					{
+						w.UpdateGui(player);
+					}
+				}
 			}
 
 			if (player.getItemInHand() != null)

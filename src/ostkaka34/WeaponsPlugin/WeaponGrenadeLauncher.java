@@ -26,6 +26,12 @@ public class WeaponGrenadeLauncher extends Weapon
 	{
 		return 8;
 	}
+	
+	@Override
+	protected int getBullets()
+	{
+		return 1;
+	}
 
 	@Override
 	public Material getMagazineType()

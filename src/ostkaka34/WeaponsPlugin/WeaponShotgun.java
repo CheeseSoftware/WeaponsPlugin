@@ -22,7 +22,7 @@ public class WeaponShotgun extends BulletWeapon
 	@Override
 	public Material getMagazineType()
 	{
-		return Material.GOLD_NUGGET;
+		return Material.BLAZE_ROD;
 	}
 
 	@Override
