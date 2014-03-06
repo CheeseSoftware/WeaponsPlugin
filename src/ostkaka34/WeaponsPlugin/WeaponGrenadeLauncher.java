@@ -95,17 +95,21 @@ public class WeaponGrenadeLauncher extends Weapon
 			LivingEntity entity = (LivingEntity) event.getEntity();
 			entity.setHealth(0);
 		}
+		
+		// FY!!!
 		WeaponGrenadeLauncher.Explode(projectile, this.getDamage());
 	}
 
 	@Override
 	protected void onProjectileHitGround(ProjectileHitEvent event, Projectile projectile)
 	{
+		// FY!!!
 		WeaponGrenadeLauncher.Explode(projectile, this.getDamage());
 	}
 
 	public static void Explode(Projectile projectile, int damage)
 	{
+		// Konstigt ställe ett ha statisk metod på. Om det används utanför så har det inget med vapnet att göra.
 		Location hitLocation = projectile.getLocation();
 		projectile.getWorld().createExplosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), damage, false, false);
 		for (Entity e : projectile.getNearbyEntities(10, 10, 10))
