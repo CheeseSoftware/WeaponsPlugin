@@ -20,7 +20,7 @@ public class WeaponWeakShotgun extends WeaponShotgun {
 	
 	@Override
 	protected int getDamage() {
-		return 7;
+		return 8;
 	}
 	
 	@Override

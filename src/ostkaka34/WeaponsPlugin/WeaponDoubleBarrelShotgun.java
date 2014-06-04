@@ -25,7 +25,7 @@ public class WeaponDoubleBarrelShotgun extends WeaponShotgun
 	@Override
 	protected float getDistance()
 	{
-		return 8;
+		return 6;
 	}
 
 	protected int getBullets()
