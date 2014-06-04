@@ -40,7 +40,6 @@ public class WeaponMAC10 extends BulletWeapon
 	protected float getSpreading()
 	{
 		return 0.05f;
-		+ 15625
 	}
 
 	@Override

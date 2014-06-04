@@ -293,7 +293,7 @@ public class WeaponsPlugin
     LivingEntity entity = event.getEntity();
     Player killer = entity.getKiller();
     if (this.economyPlugin != null) {
-      this.economyPlugin.GiveMoney(killer, entity.getMaxHealth());
+      this.economyPlugin.GiveMoney(killer,(long) (double)entity.getMaxHealth());
     }
   }
   
