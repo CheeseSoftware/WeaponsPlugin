@@ -111,14 +111,14 @@ public class WeaponsPlugin
     }
     if (this.economyPlugin != null)
     {
-      this.economyPlugin.RegisterShopItem("MAC-10", Material.WOOD_SPADE, 0, 1000, true, 1);
+      this.economyPlugin.RegisterShopItem("MAC-10", Material.WOOD_SPADE, 0, 500, true, 1);
       this.economyPlugin.RegisterShopItem("MP5", Material.WOOD_HOE, 0, 8000, true, 1);
-      this.economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 64000, true, 1);
-      this.economyPlugin.RegisterShopItem("Magnum", Material.SHEARS, 0, 20000, true, 1);
-      this.economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 16000, true, 1);
-      this.economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 96000, true, 1);
-      this.economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 136000, true, 1);
-      this.economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 200000, true, 1);
+      this.economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 32000, true, 1);
+      this.economyPlugin.RegisterShopItem("Magnum", Material.SHEARS, 0, 10000, true, 1);
+      this.economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 8000, true, 1);
+      this.economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 48000, true, 1);
+      this.economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 86000, true, 1);
+      this.economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 100000, true, 1);
       
       this.economyPlugin.RegisterShopItem("Building Block", Material.WOOL, 0, 10000, false, 1);
       this.economyPlugin.RegisterShopItem("Web", Material.WEB, 0, 10000, false, 1);
