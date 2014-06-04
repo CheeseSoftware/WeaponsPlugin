@@ -109,13 +109,13 @@ public class WeaponsPlugin extends JavaPlugin implements Listener
 
 		if (economyPlugin != null)
 		{
-			economyPlugin.RegisterShopItem("MP5", Material.WOOD_HOE, 0, 200, true, 1);
-			economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 16000, true, 1);
-			economyPlugin.RegisterShopItem("Magnum", Material.SHEARS, 0, 10000, true, 1);
-			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 4000, true, 1);
-			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 36000, true, 1);
-			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 68000, true, 1);
-			economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 100000, true, 1);
+			economyPlugin.RegisterShopItem("MP5", Material.WOOD_HOE, 0, 1000, true, 1);
+			economyPlugin.RegisterShopItem("P-90", Material.WOOD_PICKAXE, 0, 32000, true, 1);
+			economyPlugin.RegisterShopItem("Magnum", Material.SHEARS, 0, 20000, true, 1);
+			economyPlugin.RegisterShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 8000, true, 1);
+			economyPlugin.RegisterShopItem("Shotgun", Material.IRON_BARDING, 0, 72000, true, 1);
+			economyPlugin.RegisterShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 136000, true, 1);
+			economyPlugin.RegisterShopItem("Grenade Launcher", Material.IRON_HOE, 0, 200000, true, 1);
 			economyPlugin.RegisterShopItem("Building Block", Material.WOOL, 0, 100000, false, 1);
 
 			economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 4);
