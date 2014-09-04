@@ -47,14 +47,14 @@ public class WeaponMagnum extends BulletWeapon
 	@Override
 	protected int getCooldown()
 	{
-		return 10;
+		return 7;
 	}
 
 	@Override
 	protected int getReloadCooldown()
 	{
 		// TODO Auto-generated method stub
-		return 40;
+		return 24;
 	}
 
 	@Override

@@ -127,11 +127,11 @@ public class WeaponsPlugin
       this.economyPlugin.RegisterShopItem("Snow", Material.SNOW_BLOCK, 0, 20000, false, 1);
       this.economyPlugin.RegisterShopItem("Pumpkin", Material.PUMPKIN, 0, 60000, false, 1);
       
-      this.economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 50, 0, false, 4);
-      this.economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 20, 0, false, 1);
-      this.economyPlugin.RegisterShopItem("Shotgun ammo", Material.BLAZE_ROD, 60, 0, false, 1);
-      this.economyPlugin.RegisterShopItem("Grenade Launcher Grenade", Material.SLIME_BALL, 500, 0, false, 1);
-      this.economyPlugin.RegisterShopItem("Hand Grenade", Material.EGG, 400, 0, false, 1);
+      this.economyPlugin.RegisterShopItem("Automatic rifle ammo", Material.STICK, 20, 0, false, 4);
+      this.economyPlugin.RegisterShopItem("Magnum ammo", Material.COAL, 5, 0, false, 1);
+      this.economyPlugin.RegisterShopItem("Shotgun ammo", Material.BLAZE_ROD, 15, 0, false, 1);
+      this.economyPlugin.RegisterShopItem("Grenade Launcher Grenade", Material.SLIME_BALL, 300, 0, false, 1);
+      this.economyPlugin.RegisterShopItem("Hand Grenade", Material.EGG, 200, 0, false, 1);
     }
   }
   

@@ -141,7 +141,7 @@ public abstract class Weapon
 					for (int i = 0; i < this.getBullets(); i++)
 						projectiles.put(plugin.LaunchProjectile(player, this.getProjectile(), this.getProjectileSpeed(), this.getSpreading()), player.getPlayer().getEyeLocation());
 
-					player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getShootSound(), 1, 1);
+					player.getPlayer().getWorld().playSound(player.getPlayer().getEyeLocation(), this.getShootSound(), 1, 0.5f);
 					UpdateGui(player.getPlayer());
 				}
 			}
