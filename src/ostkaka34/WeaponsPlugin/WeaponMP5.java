@@ -34,7 +34,7 @@ public class WeaponMP5
   
   protected float getSpreading()
   {
-    return 0.046875F;
+    return 0.035375F;
   }
   
   protected int getCooldown()
@@ -49,7 +49,7 @@ public class WeaponMP5
   
   protected int getDamage()
   {
-    return 4;
+    return 6;
   }
   
   protected float getDistance()

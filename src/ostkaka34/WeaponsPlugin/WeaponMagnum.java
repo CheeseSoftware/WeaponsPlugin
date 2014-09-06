@@ -47,7 +47,7 @@ public class WeaponMagnum extends BulletWeapon
 	@Override
 	protected int getCooldown()
 	{
-		return 7;
+		return 10;
 	}
 
 	@Override
