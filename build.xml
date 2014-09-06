@@ -10,9 +10,9 @@
     <property name="source" value="1.7"/>
     <path id="WeaponsPlugin.classpath">
         <pathelement location="bin"/>
-        <pathelement location="../ZombieInvasion/bukkit.jar"/>
-        <pathelement location="../ZombieInvasion/craftbukkit.jar"/>
-        <pathelement location="../ZombieInvasion/OstEconomyPlugin.jar"/>
+        <pathelement location="../ZombieInvasionMinigame/bukkit.jar"/>
+        <pathelement location="../ZombieInvasionMinigame/craftbukkit.jar"/>
+        <pathelement location="../ZombieInvasionMinigame/OstEconomyPlugin.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
