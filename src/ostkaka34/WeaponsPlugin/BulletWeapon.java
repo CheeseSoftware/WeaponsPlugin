@@ -1,6 +1,5 @@
 package ostkaka34.WeaponsPlugin;
 
-import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;

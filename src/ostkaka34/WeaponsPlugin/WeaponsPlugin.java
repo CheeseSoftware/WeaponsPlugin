@@ -5,18 +5,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
-import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -32,7 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
@@ -43,20 +35,18 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
+
 import ostkaka34.OstEconomyPlugin.IOstEconomy;
 
 public class WeaponsPlugin
   extends JavaPlugin
   implements Listener
 {
-  public Map<Projectile, WPlayer> projectiles = new HashMap();
-  public Map<Player, WPlayer> players = new HashMap();
+  public Map<Projectile, WPlayer> projectiles = new HashMap<Projectile, WPlayer>();
+  public Map<Player, WPlayer> players = new HashMap<Player, WPlayer>();
   protected final WeaponsPlugin This = this;
   public Random random = new Random();
   public int tickId;
@@ -67,7 +57,7 @@ public class WeaponsPlugin
     if (this.players.containsKey(player)) {
       this.players.remove(player);
     }
-    Map<Material, Weapon> weapons = new HashMap();
+    Map<Material, Weapon> weapons = new HashMap<Material, Weapon>();
     weapons.put(Material.STONE_SPADE, new Weapon3dPrintedPistol());
     weapons.put(Material.WOOD_SPADE, new WeaponMAC10());
     weapons.put(Material.WOOD_HOE, new WeaponMP5());
@@ -86,12 +76,12 @@ public class WeaponsPlugin
     
     this.tickId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
     {
-      public void run()
+	public void run()
       {
         Iterator<Map.Entry<Player, WPlayer>> it = WeaponsPlugin.this.players.entrySet().iterator();
         while (it.hasNext())
         {
-          Map.Entry<Player, WPlayer> pairs = (Map.Entry)it.next();
+          Map.Entry<Player, WPlayer> pairs = (Entry<Player, WPlayer>)it.next();
           ((WPlayer)pairs.getValue()).Tick(WeaponsPlugin.this.This);
         }
       }

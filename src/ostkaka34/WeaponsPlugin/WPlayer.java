@@ -3,7 +3,7 @@ package ostkaka34.WeaponsPlugin;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -48,7 +48,8 @@ public class WPlayer
     return this.player;
   }
   
-  public boolean RemoveFromInventory(Material material)
+  @SuppressWarnings("deprecation")
+public boolean RemoveFromInventory(Material material)
   {
     if (material == Material.AIR) {
       return true;
@@ -83,7 +84,7 @@ public class WPlayer
     Iterator<Map.Entry<Material, Weapon>> it = this.weapons.entrySet().iterator();
     while (it.hasNext())
     {
-      Map.Entry<Material, Weapon> pairs = (Map.Entry)it.next();
+      Map.Entry<Material, Weapon> pairs = (Entry<Material, Weapon>)it.next();
       ((Weapon)pairs.getValue()).HandleProjectileHitEntity(event, projectile);
     }
   }
@@ -93,7 +94,7 @@ public class WPlayer
     Iterator<Map.Entry<Material, Weapon>> it = this.weapons.entrySet().iterator();
     while (it.hasNext())
     {
-      Map.Entry<Material, Weapon> pairs = (Map.Entry)it.next();
+      Map.Entry<Material, Weapon> pairs = (Entry<Material, Weapon>)it.next();
       ((Weapon)pairs.getValue()).HandleProjectileHitGround(event, projectile);
     }
   }
