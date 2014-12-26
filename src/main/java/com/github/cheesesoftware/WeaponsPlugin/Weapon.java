@@ -1,4 +1,4 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
 import java.lang.String;
 import java.util.Map;

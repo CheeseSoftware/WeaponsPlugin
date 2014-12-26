@@ -1,21 +1,21 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-public class WeaponP90 extends BulletWeapon
+public class WeaponMAC10 extends BulletWeapon
 {
 	@Override
 	protected String getName()
 	{
-		return "P-90";
+		return "MAC-10";
 	}
 
 	@Override
 	protected int getMagazineAmmo()
 	{
-		return 100;
+		return 50;
 	}
 
 	@Override
@@ -33,19 +33,19 @@ public class WeaponP90 extends BulletWeapon
 	@Override
 	protected float getProjectileSpeed()
 	{
-		return 3f;
+		return 2f;
 	}
 
 	@Override
 	protected float getSpreading()
 	{
-		return 0.03125f;
+		return 0.0375f;
 	}
 
 	@Override
 	protected int getCooldown()
 	{
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -57,13 +57,12 @@ public class WeaponP90 extends BulletWeapon
 	@Override
 	protected int getDamage()
 	{
-		return 8;
+		return 4;
 	}
 
 	@Override
 	protected float getDistance()
 	{
-		return 256;
+		return 128;
 	}
-
 }

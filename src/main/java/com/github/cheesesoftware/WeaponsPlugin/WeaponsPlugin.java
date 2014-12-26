@@ -1,5 +1,6 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -87,9 +88,9 @@ public class WeaponsPlugin
       }
     }, 0L, 1L);
     
-    Player[] players = getServer().getOnlinePlayers();
-    for (int i = 0; i < players.length; i++) {
-      LoadPlayer(players[i]);
+    Collection<? extends Player> players = getServer().getOnlinePlayers();
+    for (Player p : players) {
+      LoadPlayer(p);
     }
     Plugin[] plugins = getServer().getPluginManager().getPlugins();
     for (int i = 0; i < plugins.length; i++) {

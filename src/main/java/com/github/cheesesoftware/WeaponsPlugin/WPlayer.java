@@ -1,4 +1,4 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -48,7 +48,6 @@ public class WPlayer
     return this.player;
   }
   
-  @SuppressWarnings("deprecation")
 public boolean RemoveFromInventory(Material material)
   {
     if (material == Material.AIR) {

@@ -1,4 +1,4 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

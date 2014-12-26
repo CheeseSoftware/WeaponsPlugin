@@ -1,28 +1,27 @@
-package ostkaka34.WeaponsPlugin;
+package com.github.cheesesoftware.WeaponsPlugin;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-public class WeaponShotgun extends BulletWeapon
+public class WeaponP90 extends BulletWeapon
 {
 	@Override
 	protected String getName()
 	{
-		return "Shotgun";
+		return "P-90";
 	}
 
 	@Override
 	protected int getMagazineAmmo()
 	{
-		return 12;
+		return 100;
 	}
 
 	@Override
 	public Material getMagazineType()
 	{
-		return Material.BLAZE_ROD;
+		return Material.STICK;
 	}
 
 	@Override
@@ -34,51 +33,37 @@ public class WeaponShotgun extends BulletWeapon
 	@Override
 	protected float getProjectileSpeed()
 	{
-		return 2f;
+		return 3f;
 	}
 
 	@Override
 	protected float getSpreading()
 	{
-		return 0.125f;
+		return 0.03125f;
 	}
 
 	@Override
 	protected int getCooldown()
 	{
-		return 10;
+		return 2;
 	}
 
 	@Override
 	protected int getReloadCooldown()
 	{
-		return 80;
+		return 30;
 	}
 
 	@Override
 	protected int getDamage()
 	{
-		return 10;
+		return 8;
 	}
 
 	@Override
 	protected float getDistance()
 	{
-		return 8;
+		return 256;
 	}
 
-	protected int getBullets()
-	{
-		return 8;
-	}
-
-	protected Sound getShootSound()
-	{
-		return Sound.FIREWORK_BLAST;
-	}
-
-	protected Sound getReloadSound()
-	{
-		return Sound.FIREWORK_LAUNCH;
-	}
 }
