@@ -1,5 +1,5 @@
 name: WeaponsPlugin
-main: ostkaka34.WeaponsPlugin.WeaponsPlugin
+main: com.github.cheesesoftware.WeaponsPlugin.WeaponsPlugin
 depend: [OstEconomyPlugin]
 version: 0
 commands:
