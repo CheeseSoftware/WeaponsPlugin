@@ -93,25 +93,25 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 	    }
 	}
 	if (this.economyPlugin != null) {
-	    this.economyPlugin.RegisterShopItem(new ShopItem("MAC-10", Material.WOOD_SPADE, 0, 500, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("MP5", Material.WOOD_HOE, 0, 8000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("P-90", Material.WOOD_PICKAXE, 0, 48000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Magnum", Material.SHEARS, 0, 10000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 8000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Shotgun", Material.IRON_BARDING, 0, 48000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 86000, true, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Grenade Launcher", Material.IRON_HOE, 0, 100000, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("MAC-10", Material.WOOD_SPADE, 0, 5, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("MP5", Material.WOOD_HOE, 0, 80, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("P-90", Material.WOOD_PICKAXE, 0, 480, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Magnum", Material.SHEARS, 0, 100, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Weak Shotgun", Material.GOLD_BARDING, 0, 80, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Shotgun", Material.IRON_BARDING, 0, 480, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Double Barrel Shotgun", Material.DIAMOND_BARDING, 0, 860, true, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Grenade Launcher", Material.IRON_HOE, 0, 1000, true, 1));
 
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Building Block", Material.WOOL, 0, 10000, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Web", Material.WEB, 0, 10000, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Ladder", Material.LADDER, 0, 10000, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Wood", Material.WOOD, 0, 10000, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Snow", Material.SNOW_BLOCK, 0, 20000, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Pumpkin", Material.PUMPKIN, 0, 60000, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Building Block", Material.WOOL, 0, 20, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Web", Material.WEB, 0, 30, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Ladder", Material.LADDER, 0, 20, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Wood", Material.WOOD, 0, 10, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Snow", Material.SNOW_BLOCK, 0, 20, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Pumpkin", Material.PUMPKIN, 0, 60, false, 1));
 
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Automatic rifle ammo", Material.STICK, 20, 0, false, 4));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Magnum ammo", Material.COAL, 5, 0, false, 1));
-	    this.economyPlugin.RegisterShopItem(new ShopItem("Shotgun ammo", Material.BLAZE_ROD, 15, 0, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Automatic rifle ammo", Material.STICK, 200, 0, false, 4));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Magnum ammo", Material.COAL, 50, 0, false, 1));
+	    this.economyPlugin.RegisterShopItem(new ShopItem("Shotgun ammo", Material.BLAZE_ROD, 150, 0, false, 1));
 	    this.economyPlugin.RegisterShopItem(new ShopItem("Grenade Launcher Grenade", Material.SLIME_BALL, 300, 0, false, 1));
 	    this.economyPlugin.RegisterShopItem(new ShopItem("Hand Grenade", Material.EGG, 200, 0, false, 1));
 	}
