@@ -29,6 +29,10 @@
 
 	<repositories>
 		<repository>
+			<id>silentisle-repo</id>
+			<url>http://play.silentisle.net:8081/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
@@ -78,9 +82,7 @@
 		<dependency>
 			<groupId>com.github.cheesesoftware</groupId>
 			<artifactId>OstEconomyPlugin</artifactId>
-			<version>0</version>
-			<scope>system</scope>
-   			<systemPath>${project.basedir}/lib/OstEconomyPlugin.jar</systemPath>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
