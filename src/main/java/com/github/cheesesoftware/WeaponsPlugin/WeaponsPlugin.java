@@ -152,7 +152,7 @@ public class WeaponsPlugin extends JavaPlugin implements Listener {
 		if (this.economyPlugin != null) {
 		    Weapon weapon = player.getCurrentWeapon();
 		    if (weapon != null) {
-			this.economyPlugin.BuyShopItem(player.getPlayer(), this.economyPlugin.MaterialToName(weapon.getMagazineType()), 16);
+			this.economyPlugin.BuyShopItem(player.getPlayer(), this.economyPlugin.MaterialToShopItem(weapon.getMagazineType()), 16);
 		    }
 		}
 		return true;
