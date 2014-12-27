@@ -12,7 +12,8 @@
     <path id="Maven Dependencies.libraryclasspath">
         <pathelement location="../../../.m2/repository/org/spigotmc/spigot-api/1.8-R0.1-SNAPSHOT/spigot-api-1.8-R0.1-SNAPSHOT.jar"/>
         <pathelement location="../../../.m2/repository/org/bukkit/bukkit/1.8-R0.1-SNAPSHOT/bukkit-1.8-R0.1-SNAPSHOT.jar"/>
-        <pathelement location="lib/OstEconomyPlugin.jar"/>
+        <pathelement location="../../../../../OstEconomyPlugin"/>
+        <pathelement location="../../../.m2/repository/net/milkbowl/vault/Vault/1.4.1/Vault-1.4.1.jar"/>
     </path>
     <path id="WeaponsPlugin.classpath">
         <pathelement location="target/classes"/>
@@ -24,20 +25,17 @@
         <mkdir dir="target/test-classes"/>
         <copy includeemptydirs="false" todir="target/classes">
             <fileset dir="src/main/java">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
         <copy includeemptydirs="false" todir="target/classes">
             <fileset dir="src/main/resources">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
                 <exclude name="**"/>
             </fileset>
         </copy>
         <copy includeemptydirs="false" todir="target/test-classes">
             <fileset dir="src/test/java">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
